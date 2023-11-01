@@ -1,31 +1,21 @@
 const prisma = require('../prisma');
 
-const seed = async (numAuthors = 20, booksPerAuthor = 3) => {
+const seed = async () => {
   // TODO: Create 20 authors with 3 books each
-
-  /*
-    Array.from() is a quick way to create an array of a certain length
-    and fill it with dynamically generated data.
-  */
-  const createAuthorPromises = Array.from({ length: numAuthors }, (_, i) => {
-    const books = Array.from({ length: booksPerAuthor }, (_, j) => ({
-      title: `Books ${i}${j}`
-    }));
-    return prisma.author.create({
+  for (let x = 0; x < 20; x++) {
+    const books = [];
+    for (let y = 0; y < 3; y++) {
+      books.push({ title: `Book ${y}` });
+    }
+    await prisma.author.create({
       data: {
-        name: `Author ${i}`,
+        name: `Author ${x}`,
         books: {
           create: books
         }
       }
     });
-  });
-  /*
-    Promise.all allows us to start all the `create` requests
-    at the same time, rather than waiting for each one to finish.
-    We then wait for all of them to finish with `await`.
-  */
-  await Promise.all(createAuthorPromises);
+  }
 };
 
 /*
