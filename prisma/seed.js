@@ -1,15 +1,16 @@
 const prisma = require('../prisma');
-
-const seed = async () => {
+console.log('a');
+const seed = async (numAuthors = 20, booksPerAuthor = 3) => {
   // TODO: Create 20 authors with 3 books each
-  for (let x = 0; x < 20; x++) {
+  console.log('b');
+  for (let i = 0; i < numAuthors; i++) {
     const books = [];
-    for (let y = 0; y < 3; y++) {
-      books.push({ title: `Book ${y}` });
+    for (let j = 0; j < booksPerAuthor; j++) {
+      books.push({ title: `Book ${i},${j}` });
     }
     await prisma.author.create({
       data: {
-        name: `Author ${x}`,
+        name: `Author ${i}`,
         books: {
           create: books
         }
@@ -17,7 +18,7 @@ const seed = async () => {
     });
   }
 };
-
+console.log('c');
 /*
   This is pulled from the Prisma docs.
   Since we're using the Prisma Client directly,
@@ -33,3 +34,5 @@ seed()
     await prisma.$disconnect();
     process.exit(1);
   });
+
+console.log('d');
