@@ -1,4 +1,4 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 module.exports = prisma;
-console.log('in index.js');
+console.log('in /prisma/index.js');
